@@ -39,7 +39,7 @@ public class Player {
         }
 
         if(!listsWithTheSameCards.isEmpty()){
-            return 3 * gameStateModel.getCurrent_buy_in() - playermodel.getBet()+ 2* gameStateModel.getMinimum_raise();
+            return numberOfKind(listsWithTheSameCards) * (gameStateModel.getCurrent_buy_in() - playermodel.getBet()+ 2* gameStateModel.getMinimum_raise());
         }
 
     	// Check if we have any figure
@@ -82,6 +82,20 @@ public class Player {
     		}
     	}
     	return result;
+
+}
+    public static int numberOfKind(List<List<CardModel>> listsWithTheSameCards){
+        if(findFourOfAKind(listsWithTheSameCards)!=null){
+            return 4;
+        }else  if(findThreeOfAKind(listsWithTheSameCards)!=null){
+            return 3;
+        }
+        if(findTwoOfAKind(listsWithTheSameCards)!=null){
+            return 2;
+        }
+        else {
+            return 1;
+        }
     }
     
     public static String findFourOfAKind(List<List<CardModel>> sortedCards ) {
