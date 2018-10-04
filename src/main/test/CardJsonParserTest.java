@@ -3,6 +3,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import org.junit.Assert;
 import org.junit.Test;
+import org.leanpoker.models.GameStateModel;
 import org.leanpoker.models.PlayerModel;
 import org.leanpoker.parser.CardJsonParser;
 
@@ -107,18 +108,17 @@ public class CardJsonParserTest {
         //given
         JsonParser parser = new JsonParser();
         JsonElement request = parser.parse(json);
-        CardJsonParser cardJsonParser = new CardJsonParser();
+       // CardJsonParser cardJsonParser = new CardJsonParser();
 
         //when
-        PlayerModel playerModel=  cardJsonParser.parseRequest(request);
+       // PlayerModel playerModel=  cardJsonParser.parseRequest(request);
 
+        Gson gson = new Gson();
+        GameStateModel gameStateModel = gson.fromJson(request, GameStateModel.class);
 
         //then
-        Assert.assertEquals("4",  playerModel.getHole_cards().get(0).getRank());
-        Assert.assertEquals("spades",  playerModel.getHole_cards().get(0).getSuit());
-
-        Assert.assertEquals(3,  playerModel.getHole_cards().size());
-
-
+        Assert.assertEquals("4",  gameStateModel.getCommunity_cards().get(0).getRank());
+        Assert.assertEquals("spades",  gameStateModel.getCommunity_cards().get(0).getSuit());
+        Assert.assertEquals(3,  gameStateModel.getCommunity_cards().size());
     }
 }
