@@ -138,4 +138,42 @@ public class Player {
     	ranksInHand.add(cardsInHand.get(1).getRank());
     	return ranksInHand.contains("7") && ranksInHand.contains("2");
     }
+    
+    public static String flush(List<CardModel> cards) {
+    	List<List<CardModel>> cardsSortedBySuits = sortCardsBySuit(cards);
+    	for (List<CardModel> sameSuitCards : cardsSortedBySuits) {
+    		if (sameSuitCards.size() == 4) {
+    			return sameSuitCards.get(0).getSuit();
+    		}
+    	}
+    	return null;
+    }
+    public static List<List<CardModel>> sortCardsBySuit(List<CardModel> cardList) {
+    	List<List<CardModel>> result = new ArrayList<>();
+    	List<String> ranksAlreadyChecked = new ArrayList();
+    	
+    	for (int i = 0; i < cardList.size(); i++) {
+    		CardModel currentCard = cardList.get(i);
+    		if (!ranksAlreadyChecked.contains(currentCard.getRank())) {
+    			
+    			ranksAlreadyChecked.add(currentCard.getRank());
+    			List<CardModel> foundFigure = new ArrayList<>();
+    			foundFigure.add(currentCard);
+    			
+        		for (int k = 0; k < cardList.size(); k++) {
+        			CardModel nextCard = cardList.get(k);
+        			
+        			if (!currentCard.equals(nextCard) && currentCard.getSuit().equals(nextCard.getSuit())) {
+        				foundFigure.add(nextCard);
+        			}
+        		}
+        		
+        		if (foundFigure.size() > 1) {
+    				result.add(foundFigure);
+    			}
+    		}
+    	}
+    	return result;
+
+}
 }
