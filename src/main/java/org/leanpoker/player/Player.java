@@ -57,7 +57,8 @@ public class Player {
         		return playermodel.getStack();
         	}
         	
-        	return numberOfKind(listsWithTheSameCards) * (gameStateModel.getCurrent_buy_in() - playermodel.getBet() + 2 * gameStateModel.getMinimum_raise());
+        	if (numberOfKind(listsWithTheSameCards) == 1 ) { return 0; }
+        	return checkIfMoneyEnough(playermodel, numberOfKind(listsWithTheSameCards) * (gameStateModel.getCurrent_buy_in() - playermodel.getBet() + 2 * gameStateModel.getMinimum_raise())); 
         } else if (numCardsOnTheTable >= 4) {
         	// four cards on the table
         	if (chanceForFlush(cardModelAll) >= 3) {
@@ -73,6 +74,7 @@ public class Player {
                 return playermodel.getStack();
             }
         	
+        	if (numberOfKind(listsWithTheSameCards) == 1 ) { return 0; }
         	return checkIfMoneyEnough(playermodel,numberOfKind(listsWithTheSameCards) * (gameStateModel.getCurrent_buy_in() - playermodel.getBet() + 2 * gameStateModel.getMinimum_raise()));
         }
 
