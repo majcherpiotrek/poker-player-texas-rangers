@@ -39,6 +39,9 @@ public class Player {
         	// no cards on the table
         	int moneyToBet = checkIfMoneyEnough(playermodel, gameStateModel.getCurrent_buy_in() - playermodel.getBet() + 2 * gameStateModel.getMinimum_raise());
         	if (moneyToBet > 0.3 * playermodel.getStack()) {return 0;}
+        	if (gameStateModel.getCurrent_buy_in() != playermodel.getBet()) {
+        		return gameStateModel.getCurrent_buy_in();
+        	}
         	return moneyToBet;
         	
         } else if (numCardsOnTheTable > 0 && numCardsOnTheTable <= 3) {
@@ -82,7 +85,6 @@ public class Player {
         return 0;
     }
 
-
     public static void showdown(JsonElement game) {
     }
 
@@ -94,7 +96,7 @@ public class Player {
         return false;
     }
 
-
+    
     public static List<List<CardModel>> sortCardsByRank(List<CardModel> cardList) {
         List<List<CardModel>> result = new ArrayList<>();
         List<String> ranksAlreadyChecked = new ArrayList();
