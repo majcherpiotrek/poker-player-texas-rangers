@@ -37,15 +37,15 @@ public class Player {
         
         if (numCardsOnTheTable == 0) {
         	// no cards on the table
-        	return numberOfKind(listsWithTheSameCards) * (gameStateModel.getCurrent_buy_in() - playermodel.getBet() + 2 * gameStateModel.getMinimum_raise());
+        	return checkIfMoneyEnough(playermodel,numberOfKind(listsWithTheSameCards) * (gameStateModel.getCurrent_buy_in() - playermodel.getBet() + 2 * gameStateModel.getMinimum_raise()));
         } else if (numCardsOnTheTable > 0 && numCardsOnTheTable <= 3) {
         	// three cards on the table
         	if (chanceForFlush(cardModelAll) >= 3) {
-        		return 5 * (gameStateModel.getCurrent_buy_in() - playermodel.getBet() + 2 * gameStateModel.getMinimum_raise());
+        		return checkIfMoneyEnough(playermodel,5 * (gameStateModel.getCurrent_buy_in() - playermodel.getBet() + 2 * gameStateModel.getMinimum_raise()));
         	}
         	
         	if (fullHouse(listsWithTheSameCards)) {
-                return 5 * (gameStateModel.getCurrent_buy_in() - playermodel.getBet() + 2 * gameStateModel.getMinimum_raise());
+                return checkIfMoneyEnough(playermodel,5 * (gameStateModel.getCurrent_buy_in() - playermodel.getBet() + 2 * gameStateModel.getMinimum_raise()));
             }
         	
         	return numberOfKind(listsWithTheSameCards) * (gameStateModel.getCurrent_buy_in() - playermodel.getBet() + 2 * gameStateModel.getMinimum_raise());
@@ -53,16 +53,16 @@ public class Player {
         	// four cards on the table
         	if (chanceForFlush(cardModelAll) >= 3) {
         		if (chanceForFlush(cardModelAll) == 4) {
-        			return 6* (gameStateModel.getCurrent_buy_in() - playermodel.getBet() + 2 * gameStateModel.getMinimum_raise());
+        			return checkIfMoneyEnough(playermodel,6* (gameStateModel.getCurrent_buy_in() - playermodel.getBet() + 2 * gameStateModel.getMinimum_raise()));
         		}
-        		return  5 * (gameStateModel.getCurrent_buy_in() - playermodel.getBet() + 2 * gameStateModel.getMinimum_raise());
+        		return  checkIfMoneyEnough(playermodel,5 * (gameStateModel.getCurrent_buy_in() - playermodel.getBet() + 2 * gameStateModel.getMinimum_raise()));
         	}
         	
         	if (fullHouse(listsWithTheSameCards)) {
-                return 5 * (gameStateModel.getCurrent_buy_in() - playermodel.getBet() + 2 * gameStateModel.getMinimum_raise());
+                return checkIfMoneyEnough(playermodel,5 * (gameStateModel.getCurrent_buy_in() - playermodel.getBet() + 2 * gameStateModel.getMinimum_raise()));
             }
         	
-        	return numberOfKind(listsWithTheSameCards) * (gameStateModel.getCurrent_buy_in() - playermodel.getBet() + 2 * gameStateModel.getMinimum_raise());
+        	return checkIfMoneyEnough(playermodel,numberOfKind(listsWithTheSameCards) * (gameStateModel.getCurrent_buy_in() - playermodel.getBet() + 2 * gameStateModel.getMinimum_raise()));
         }
 
 
@@ -226,5 +226,15 @@ public class Player {
         }
         return result;
 
+    }
+
+    public static int checkIfMoneyEnough(PlayerModel playermodel, int money){
+        if(playermodel.getStack()>money)
+        {
+            return money;
+        }
+        else{
+            return playermodel.getStack();
+        }
     }
 }
