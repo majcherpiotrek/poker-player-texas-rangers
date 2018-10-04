@@ -38,9 +38,9 @@ public class Player {
         if (numCardsOnTheTable == 0) {
         	// no cards on the table
         	return numberOfKind(listsWithTheSameCards) * (gameStateModel.getCurrent_buy_in() - playermodel.getBet() + 2 * gameStateModel.getMinimum_raise());
-        } else if (numCardsOnTheTable >= 3) {
+        } else if (numCardsOnTheTable > 0 && numCardsOnTheTable <= 3) {
         	// three cards on the table
-        	if (chanceForFlush(cardModelAll) != null) {
+        	if (chanceForFlush(cardModelAll) >= 3) {
         		return 5 * (gameStateModel.getCurrent_buy_in() - playermodel.getBet() + 2 * gameStateModel.getMinimum_raise());
         	}
         	
@@ -49,8 +49,20 @@ public class Player {
             }
         	
         	return numberOfKind(listsWithTheSameCards) * (gameStateModel.getCurrent_buy_in() - playermodel.getBet() + 2 * gameStateModel.getMinimum_raise());
+        } else if (numCardsOnTheTable >= 4) {
+        	// four cards on the table
+        	if (chanceForFlush(cardModelAll) >= 3) {
+        		if (chanceForFlush(cardModelAll) == 4) {
+        			return 6* (gameStateModel.getCurrent_buy_in() - playermodel.getBet() + 2 * gameStateModel.getMinimum_raise());
+        		}
+        		return  5 * (gameStateModel.getCurrent_buy_in() - playermodel.getBet() + 2 * gameStateModel.getMinimum_raise());
+        	}
         	
+        	if (fullHouse(listsWithTheSameCards)) {
+                return 5 * (gameStateModel.getCurrent_buy_in() - playermodel.getBet() + 2 * gameStateModel.getMinimum_raise());
+            }
         	
+        	return numberOfKind(listsWithTheSameCards) * (gameStateModel.getCurrent_buy_in() - playermodel.getBet() + 2 * gameStateModel.getMinimum_raise());
         }
 
 
@@ -176,14 +188,15 @@ public class Player {
         return ranksInHand.contains("7") && ranksInHand.contains("2");
     }
 
-    public static String chanceForFlush(List<CardModel> cards) {
+    public static int chanceForFlush(List<CardModel> cards) {
         List<List<CardModel>> cardsSortedBySuits = sortCardsBySuit(cards);
+        int biggestFlushchance = 0;
         for (List<CardModel> sameSuitCards : cardsSortedBySuits) {
-            if (sameSuitCards.size() >= 3) {
-                return sameSuitCards.get(0).getSuit();
+            if (sameSuitCards.size() >= biggestFlushchance) {
+            	biggestFlushchance = sameSuitCards.size();
             }
         }
-        return null;
+        return biggestFlushchance;
     }
 
     public static List<List<CardModel>> sortCardsBySuit(List<CardModel> cardList) {
