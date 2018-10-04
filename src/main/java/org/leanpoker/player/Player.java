@@ -34,12 +34,19 @@ public class Player {
         List<List<CardModel>> listsWithTheSameCards = sortCardsByRank(cardModelAll);
 
 
-        if(gameStateModel.getCommunity_cards().size() <= 3){
-            return 2 * gameStateModel.getCurrent_buy_in() - playermodel.getBet()+ 2* gameStateModel.getMinimum_raise();
+        if(gameStateModel.getCommunity_cards().size() < 3){
+            if(shouldFold(playerCard)){
+                return 0;
+            }
+            return gameStateModel.getCurrent_buy_in() - playermodel.getBet()+ 2* gameStateModel.getMinimum_raise();
         }
-
-        if(!listsWithTheSameCards.isEmpty()){
-            return numberOfKind(listsWithTheSameCards) * (gameStateModel.getCurrent_buy_in() - playermodel.getBet()+ 2* gameStateModel.getMinimum_raise());
+        if(gameStateModel.getCommunity_cards().size() >= 3) {
+            if(listsWithTheSameCards.isEmpty()){
+                return 0;
+            }
+            else{
+                return numberOfKind(listsWithTheSameCards) * (gameStateModel.getCurrent_buy_in() - playermodel.getBet()+ 2* gameStateModel.getMinimum_raise());
+            }
         }
 
     	// Check if we have any figure
