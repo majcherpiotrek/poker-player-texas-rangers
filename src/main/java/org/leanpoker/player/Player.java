@@ -32,30 +32,26 @@ public class Player {
         cardModelAll.addAll(playerCard);
 
         List<List<CardModel>> listsWithTheSameCards = sortCardsByRank(cardModelAll);
-
-
-        if (fullHouse(listsWithTheSameCards)) {
-            return 5 * (gameStateModel.getCurrent_buy_in() - playermodel.getBet() + 2 * gameStateModel.getMinimum_raise());
-        }
-        if (gameStateModel.getCommunity_cards().size() < 3) {
-            if (shouldFold(playerCard)) {
-                return 0;
+        
+        int numCardsOnTheTable = gameStateModel.getCommunity_cards().size();
+        
+        if (numCardsOnTheTable == 0) {
+        	// no cards on the table
+        	return numberOfKind(listsWithTheSameCards) * (gameStateModel.getCurrent_buy_in() - playermodel.getBet() + 2 * gameStateModel.getMinimum_raise());
+        } else if (numCardsOnTheTable >= 3) {
+        	// three cards on the table
+        	if (chanceForFlush(cardModelAll) != null) {
+        		return 5 * (gameStateModel.getCurrent_buy_in() - playermodel.getBet() + 2 * gameStateModel.getMinimum_raise());
+        	}
+        	
+        	if (fullHouse(listsWithTheSameCards)) {
+                return 5 * (gameStateModel.getCurrent_buy_in() - playermodel.getBet() + 2 * gameStateModel.getMinimum_raise());
             }
-            return gameStateModel.getCurrent_buy_in() - playermodel.getBet() + 2 * gameStateModel.getMinimum_raise();
+        	
+        	return numberOfKind(listsWithTheSameCards) * (gameStateModel.getCurrent_buy_in() - playermodel.getBet() + 2 * gameStateModel.getMinimum_raise());
+        	
+        	
         }
-        if (gameStateModel.getCommunity_cards().size() >= 3) {
-            if (listsWithTheSameCards.isEmpty()) {
-                return 0;
-            } else {
-                return numberOfKind(listsWithTheSameCards) * (gameStateModel.getCurrent_buy_in() - playermodel.getBet() + 2 * gameStateModel.getMinimum_raise());
-            }
-        }
-
-        // Check if we have any figure
-
-        // Check how much money we have
-
-        // Check or bet minimum raise
 
 
         return 0;
@@ -180,10 +176,10 @@ public class Player {
         return ranksInHand.contains("7") && ranksInHand.contains("2");
     }
 
-    public static String flush(List<CardModel> cards) {
+    public static String chanceForFlush(List<CardModel> cards) {
         List<List<CardModel>> cardsSortedBySuits = sortCardsBySuit(cards);
         for (List<CardModel> sameSuitCards : cardsSortedBySuits) {
-            if (sameSuitCards.size() == 4) {
+            if (sameSuitCards.size() >= 3) {
                 return sameSuitCards.get(0).getSuit();
             }
         }
