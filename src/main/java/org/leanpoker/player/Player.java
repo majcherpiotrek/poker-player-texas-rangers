@@ -34,12 +34,19 @@ public class Player {
         List<List<CardModel>> listsWithTheSameCards = sortCardsByRank(cardModelAll);
 
 
-        if(gameStateModel.getCommunity_cards().size() <= 3){
-            return 2 * gameStateModel.getCurrent_buy_in() - playermodel.getBet()+ 2* gameStateModel.getMinimum_raise();
+        if(gameStateModel.getCommunity_cards().size() < 3){
+            if(shouldFold(playerCard)){
+                return 0;
+            }
+            return gameStateModel.getCurrent_buy_in() - playermodel.getBet()+ 2* gameStateModel.getMinimum_raise();
         }
-
-        if(!listsWithTheSameCards.isEmpty()){
-            return 3 * gameStateModel.getCurrent_buy_in() - playermodel.getBet()+ 2* gameStateModel.getMinimum_raise();
+        if(gameStateModel.getCommunity_cards().size() >= 3) {
+            if(listsWithTheSameCards.isEmpty()){
+                return 0;
+            }
+            else{
+                return numberOfKind(listsWithTheSameCards) * (gameStateModel.getCurrent_buy_in() - playermodel.getBet()+ 2* gameStateModel.getMinimum_raise());
+            }
         }
 
     	// Check if we have any figure
@@ -51,7 +58,8 @@ public class Player {
     	
         return 0;
     }
-
+    
+    
     public static void showdown(JsonElement game) {
     }
     
@@ -81,6 +89,20 @@ public class Player {
     		}
     	}
     	return result;
+
+}
+    public static int numberOfKind(List<List<CardModel>> listsWithTheSameCards){
+        if(findFourOfAKind(listsWithTheSameCards)!=null){
+            return 4;
+        }else  if(findThreeOfAKind(listsWithTheSameCards)!=null){
+            return 3;
+        }
+        if(findTwoOfAKind(listsWithTheSameCards)!=null){
+            return 2;
+        }
+        else {
+            return 1;
+        }
     }
     
     public static String findFourOfAKind(List<List<CardModel>> sortedCards ) {
@@ -138,5 +160,12 @@ public class Player {
     		}
     	}
     	return null;
+    }
+
+    public static boolean shouldFold(List<CardModel> cardsInHand) {
+    	List<String> ranksInHand = new ArrayList<>();
+    	ranksInHand.add(cardsInHand.get(0).getRank());
+    	ranksInHand.add(cardsInHand.get(1).getRank());
+    	return ranksInHand.contains("7") && ranksInHand.contains("2");
     }
 }
