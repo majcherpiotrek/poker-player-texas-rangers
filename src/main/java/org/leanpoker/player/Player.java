@@ -109,4 +109,34 @@ public class Player {
     	}
     	return null;
     }
+    
+    public static List<String> findTwoPairs(List<List<CardModel>> sortedCards) {
+    	int pairCounter = 0;
+    	List<String> foundRanks = new ArrayList<>();
+    	for(List<CardModel> cards : sortedCards) {
+    		if(cards.size() == 2) {
+    			pairCounter++;
+    			foundRanks.add(cards.get(0).getRank());
+    			if(pairCounter == 2) {
+        			return foundRanks;
+        		}
+    		}
+    	}
+    	return null;
+    }
+    
+    public static List<String> findThreePairs(List<List<CardModel>> sortedCards) {
+    	int pairCounter = 0;
+    	List<String> foundRanks = new ArrayList<>();
+    	for(List<CardModel> cards : sortedCards) {
+    		if(cards.size() == 2) {
+    			pairCounter++;
+    			foundRanks.add(cards.get(0).getRank());
+    			if(pairCounter == 3) {
+        			return foundRanks;
+        		}
+    		}
+    	}
+    	return null;
+    }
 }

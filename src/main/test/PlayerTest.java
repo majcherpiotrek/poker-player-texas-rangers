@@ -87,4 +87,88 @@ public class PlayerTest {
 		assertEquals("K", foundFourOfAKind);
 	}
 	
+	@Test
+	public void testFindTwoPairs_find() {
+		// given
+		List<List<CardModel>> sortedCards = new ArrayList<>();
+		List<CardModel> cardList1 = new ArrayList<>();
+		List<CardModel> cardList2 = new ArrayList<>();
+		cardList1.add(new CardModel("K", "Heart"));
+		cardList1.add(new CardModel("K", "Caro"));
+		cardList2.add(new CardModel("10", "Cross"));
+		cardList2.add(new CardModel("10", "Shield"));
+		sortedCards.add(cardList1);
+		sortedCards.add(cardList2);
+		
+		// when
+		List<String> pairs = Player.findTwoPairs(sortedCards);
+		
+		// then
+		assertEquals(2, pairs.size());
+		assertTrue(pairs.contains("K"));
+		assertTrue(pairs.contains("10"));
+	}
+	
+	@Test
+	public void testFindTwoPairs_noTwoPairs() {
+		// given
+		List<List<CardModel>> sortedCards = new ArrayList<>();
+		List<CardModel> cardList1 = new ArrayList<>();
+		cardList1.add(new CardModel("K", "Heart"));
+		cardList1.add(new CardModel("K", "Caro"));
+		sortedCards.add(cardList1);
+		
+		// when
+		List<String> pairs = Player.findTwoPairs(sortedCards);
+		
+		// then
+		assertTrue(pairs == null);
+	}
+	
+	@Test
+	public void testFindThreePairs_find() {
+		// given
+		List<List<CardModel>> sortedCards = new ArrayList<>();
+		List<CardModel> cardList1 = new ArrayList<>();
+		List<CardModel> cardList2 = new ArrayList<>();
+		List<CardModel> cardList3 = new ArrayList<>();
+		cardList1.add(new CardModel("K", "Heart"));
+		cardList1.add(new CardModel("K", "Caro"));
+		cardList2.add(new CardModel("10", "Cross"));
+		cardList2.add(new CardModel("10", "Shield"));
+		cardList3.add(new CardModel("A", "Cross"));
+		cardList3.add(new CardModel("A", "Shield"));
+		sortedCards.add(cardList1);
+		sortedCards.add(cardList2);
+		sortedCards.add(cardList3);
+		
+		// when
+		List<String> pairs = Player.findThreePairs(sortedCards);
+		
+		// then
+		assertEquals(3, pairs.size());
+		assertTrue(pairs.contains("K"));
+		assertTrue(pairs.contains("10"));
+		assertTrue(pairs.contains("A"));
+	}
+	
+	@Test
+	public void testFindThreePairs_noThreePairs() {
+		// given
+		List<List<CardModel>> sortedCards = new ArrayList<>();
+		List<CardModel> cardList1 = new ArrayList<>();
+		List<CardModel> cardList3 = new ArrayList<>();
+		cardList1.add(new CardModel("K", "Heart"));
+		cardList1.add(new CardModel("K", "Caro"));
+		cardList3.add(new CardModel("A", "Cross"));
+		cardList3.add(new CardModel("A", "Shield"));
+		sortedCards.add(cardList1);
+		sortedCards.add(cardList3);
+		
+		// when
+		List<String> pairs = Player.findThreePairs(sortedCards);
+		
+		// then
+		assertTrue(pairs == null);
+	}
 }
