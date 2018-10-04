@@ -37,14 +37,14 @@ public class Player {
         
         if (numCardsOnTheTable == 0) {
         	// no cards on the table
-        	int moneyToBet = checkIfMoneyEnough(playermodel,numberOfKind(listsWithTheSameCards) * (gameStateModel.getCurrent_buy_in() - playermodel.getBet() + 2 * gameStateModel.getMinimum_raise()));
+        	int moneyToBet = checkIfMoneyEnough(playermodel, gameStateModel.getCurrent_buy_in() - playermodel.getBet() + 2 * gameStateModel.getMinimum_raise());
         	if (moneyToBet > 0.3 * playermodel.getStack()) {return 0;}
         	return moneyToBet;
         	
         } else if (numCardsOnTheTable > 0 && numCardsOnTheTable <= 3) {
         	// three cards on the table
         	if (chanceForFlush(cardModelAll) >= 3) {
-        		return checkIfMoneyEnough(playermodel,5 * (gameStateModel.getCurrent_buy_in() - playermodel.getBet() + 2 * gameStateModel.getMinimum_raise()));
+        		return checkIfMoneyEnough(playermodel,gameStateModel.getCurrent_buy_in() - playermodel.getBet() + 4 * gameStateModel.getMinimum_raise());
         	}
         	
         	if (fullHouse(listsWithTheSameCards)) {
@@ -58,7 +58,7 @@ public class Player {
         	}
         	
         	if (numberOfKind(listsWithTheSameCards) == 1 ) { return 0; }
-        	return checkIfMoneyEnough(playermodel, numberOfKind(listsWithTheSameCards) * (gameStateModel.getCurrent_buy_in() - playermodel.getBet() + 2 * gameStateModel.getMinimum_raise())); 
+        	return checkIfMoneyEnough(playermodel, gameStateModel.getCurrent_buy_in() - playermodel.getBet() + 4 * gameStateModel.getMinimum_raise()); 
         } else if (numCardsOnTheTable >= 4) {
         	// four cards on the table
         	if (chanceForFlush(cardModelAll) >= 3) {
@@ -66,7 +66,7 @@ public class Player {
         			// all in
         			return playermodel.getStack();
         		}
-        		return  checkIfMoneyEnough(playermodel,3 * (gameStateModel.getCurrent_buy_in() - playermodel.getBet() + 2 * gameStateModel.getMinimum_raise()));
+        		return  checkIfMoneyEnough(playermodel, gameStateModel.getCurrent_buy_in() - playermodel.getBet() + 5 * gameStateModel.getMinimum_raise());
         	}
         	
         	if (fullHouse(listsWithTheSameCards)) {
@@ -75,7 +75,7 @@ public class Player {
             }
         	
         	if (numberOfKind(listsWithTheSameCards) == 1 ) { return 0; }
-        	return checkIfMoneyEnough(playermodel,numberOfKind(listsWithTheSameCards) * (gameStateModel.getCurrent_buy_in() - playermodel.getBet() + 2 * gameStateModel.getMinimum_raise()));
+        	return checkIfMoneyEnough(playermodel, gameStateModel.getCurrent_buy_in() - playermodel.getBet() + 2 * gameStateModel.getMinimum_raise());
         }
 
 
