@@ -19,12 +19,20 @@ public class Player {
 
     public static int betRequest(JsonElement request) {
 
-		//CardJsonParser cardJsonParser  = new CardJsonParser();
-		//PlayerModel playerModel = cardJsonParser.parseRequest(request);
-
         Gson gson = new Gson();
         GameStateModel gameStateModel = gson.fromJson(request, GameStateModel.class);
-        gameStateModel.getCommunity_cards();
+        List<CardModel> cardModelCommunity = gameStateModel.getCommunity_cards();
+
+        int idPlayer = gameStateModel.getIn_action();
+        PlayerModel playermodel = gameStateModel.getPlayers().get(idPlayer);
+        List<CardModel> playerCard = playermodel.getHole_cards();
+
+        List<CardModel> cardModelAll = new ArrayList<>();
+        cardModelAll.addAll(cardModelCommunity);
+        cardModelAll.addAll(playerCard);
+
+        List<List<CardModel>> listsWithTheSameCards = sortCardsByRank(cardModelAll);
+
     	// Check if we have any figure
     	
     	// Check how much money we have
