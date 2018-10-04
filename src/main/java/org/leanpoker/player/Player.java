@@ -34,6 +34,9 @@ public class Player {
         List<List<CardModel>> listsWithTheSameCards = sortCardsByRank(cardModelAll);
 
 
+        if(fullHouse(listsWithTheSameCards)){
+            return 5* (gameStateModel.getCurrent_buy_in() - playermodel.getBet()+ 2* gameStateModel.getMinimum_raise());
+        }
         if(gameStateModel.getCommunity_cards().size() < 3){
             if(shouldFold(playerCard)){
                 return 0;
@@ -62,6 +65,17 @@ public class Player {
     
     public static void showdown(JsonElement game) {
     }
+
+
+    public static boolean fullHouse(List<List<CardModel>> listsWithTheSameCards){
+       if(listsWithTheSameCards.size()==2){
+           if(findThreeOfAKind(listsWithTheSameCards)!=null && findTwoOfAKind(listsWithTheSameCards)!=null){
+               return true;
+           }
+           else return false;
+       }
+    }
+
     
     public static List<List<CardModel>> sortCardsByRank(List<CardModel> cardList) {
     	List<List<CardModel>> result = new ArrayList<>();
