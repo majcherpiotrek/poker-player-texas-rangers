@@ -25,18 +25,8 @@ public class Player {
     public static void showdown(JsonElement game) {
     }
     
-    public static boolean howManyPairs(List<CardModel> cardList) {
-    	boolean hasPair = false;
-    	for (int i = 0; i < cardList.size(); i++) {
-    		
-    		CardModel currentCard = cardList.get(i);
-    		for (int j = i + 1; j < cardList.size(); j++) {
-    			if (currentCard.equals(cardList.get(j))) {
-    				hasPair = true;
-    			}
-    		}
-    	}
-    	
-    	return hasPair;
+    public static List<List<CardModel>> findPairs(List<CardModel> cardList) {
+    	// TODO implement
+    	return null;
     }
 }
