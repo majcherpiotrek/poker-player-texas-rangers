@@ -51,7 +51,8 @@ public class Player {
     	
         return 0;
     }
-
+    
+    
     public static void showdown(JsonElement game) {
     }
     
@@ -108,5 +109,12 @@ public class Player {
     		}
     	}
     	return null;
+    }
+    
+    public static boolean shouldFold(List<CardModel> cardsInHand) {
+    	List<String> ranksInHand = new ArrayList<>();
+    	ranksInHand.add(cardsInHand.get(0).getRank());
+    	ranksInHand.add(cardsInHand.get(1).getRank());
+    	return ranksInHand.contains("7") && ranksInHand.contains("2");
     }
 }
