@@ -5,7 +5,14 @@ public class CardModel {
 	private String rank;
 	
 	private String suit;
-
+	
+	public CardModel() {}
+	
+	public CardModel(String rank, String suit) {
+		this.rank = rank;
+		this.suit = suit;
+	}
+	
 	public String getRank() {
 		return rank;
 	}
