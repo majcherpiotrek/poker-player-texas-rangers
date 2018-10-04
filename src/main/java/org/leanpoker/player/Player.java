@@ -37,7 +37,10 @@ public class Player {
         
         if (numCardsOnTheTable == 0) {
         	// no cards on the table
-        	return checkIfMoneyEnough(playermodel,numberOfKind(listsWithTheSameCards) * (gameStateModel.getCurrent_buy_in() - playermodel.getBet() + 2 * gameStateModel.getMinimum_raise()));
+        	int moneyToBet = checkIfMoneyEnough(playermodel,numberOfKind(listsWithTheSameCards) * (gameStateModel.getCurrent_buy_in() - playermodel.getBet() + 2 * gameStateModel.getMinimum_raise()));
+        	if (moneyToBet > 0.3 * playermodel.getStack()) {return 0;}
+        	return moneyToBet;
+        	
         } else if (numCardsOnTheTable > 0 && numCardsOnTheTable <= 3) {
         	// three cards on the table
         	if (chanceForFlush(cardModelAll) >= 3) {
@@ -45,21 +48,29 @@ public class Player {
         	}
         	
         	if (fullHouse(listsWithTheSameCards)) {
-                return checkIfMoneyEnough(playermodel,5 * (gameStateModel.getCurrent_buy_in() - playermodel.getBet() + 2 * gameStateModel.getMinimum_raise()));
+        		// all in
+                return playermodel.getStack();
             }
+        	
+        	if (numberOfKind(listsWithTheSameCards) == 4) {
+        		// all in
+        		return playermodel.getStack();
+        	}
         	
         	return numberOfKind(listsWithTheSameCards) * (gameStateModel.getCurrent_buy_in() - playermodel.getBet() + 2 * gameStateModel.getMinimum_raise());
         } else if (numCardsOnTheTable >= 4) {
         	// four cards on the table
         	if (chanceForFlush(cardModelAll) >= 3) {
         		if (chanceForFlush(cardModelAll) == 4) {
-        			return checkIfMoneyEnough(playermodel,6* (gameStateModel.getCurrent_buy_in() - playermodel.getBet() + 2 * gameStateModel.getMinimum_raise()));
+        			// all in
+        			return playermodel.getStack();
         		}
-        		return  checkIfMoneyEnough(playermodel,5 * (gameStateModel.getCurrent_buy_in() - playermodel.getBet() + 2 * gameStateModel.getMinimum_raise()));
+        		return  checkIfMoneyEnough(playermodel,3 * (gameStateModel.getCurrent_buy_in() - playermodel.getBet() + 2 * gameStateModel.getMinimum_raise()));
         	}
         	
         	if (fullHouse(listsWithTheSameCards)) {
-                return checkIfMoneyEnough(playermodel,5 * (gameStateModel.getCurrent_buy_in() - playermodel.getBet() + 2 * gameStateModel.getMinimum_raise()));
+        		// all in
+                return playermodel.getStack();
             }
         	
         	return checkIfMoneyEnough(playermodel,numberOfKind(listsWithTheSameCards) * (gameStateModel.getCurrent_buy_in() - playermodel.getBet() + 2 * gameStateModel.getMinimum_raise()));
