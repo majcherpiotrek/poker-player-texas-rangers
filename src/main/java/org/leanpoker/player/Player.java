@@ -2,6 +2,7 @@ package org.leanpoker.player;
 
 import com.google.gson.JsonElement;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -33,6 +34,11 @@ public class Player {
     
     public static List<List<CardModel>> findPairs(List<CardModel> cardList) {
     	// TODO implement
+    	return null;
+    }
+    
+    public static String findFourOfAKind(List<List<CardModel>> sortedCards) {
+    	
     	return null;
     }
 }
