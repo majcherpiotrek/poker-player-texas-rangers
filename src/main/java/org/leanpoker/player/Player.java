@@ -33,13 +33,15 @@ public class Player {
 
         List<List<CardModel>> listsWithTheSameCards = sortCardsByRank(cardModelAll);
 
-        if(gameStateModel.getCommunity_cards().isEmpty()){
-            return gameStateModel.getCurrent_buy_in() - playermodel.getBet()+ 2* gameStateModel.getMinimum_raise();
+
+        if(gameStateModel.getCommunity_cards().size() <= 3){
+            return 2 * gameStateModel.getCurrent_buy_in() - playermodel.getBet()+ 2* gameStateModel.getMinimum_raise();
         }
 
         if(!listsWithTheSameCards.isEmpty()){
-            return gameStateModel.getCurrent_buy_in() - playermodel.getBet()+ 2* gameStateModel.getMinimum_raise();
+            return 3 * gameStateModel.getCurrent_buy_in() - playermodel.getBet()+ 2* gameStateModel.getMinimum_raise();
         }
+
     	// Check if we have any figure
     	
     	// Check how much money we have
