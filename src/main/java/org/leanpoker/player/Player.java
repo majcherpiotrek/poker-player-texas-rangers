@@ -33,6 +33,9 @@ public class Player {
 
         List<List<CardModel>> listsWithTheSameCards = sortCardsByRank(cardModelAll);
 
+        if(listsWithTheSameCards.isEmpty()){
+            return gameStateModel.getCurrent_buy_in() - playermodel.getBet()+ 2* gameStateModel.getMinimum_raise();
+        }
     	// Check if we have any figure
     	
     	// Check how much money we have
